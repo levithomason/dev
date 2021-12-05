@@ -9,6 +9,9 @@ export type TokenAddress = string;
 export type TokenSymbol =
   | "AVAX"
   | "DAI"
+  | "ETH"
+  | "FTM"
+  | "ONE"
   | "HEC"
   | "sHEC"
   | "wsHEC"

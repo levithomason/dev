@@ -4,10 +4,14 @@
   "scripts": {
     "dev": "next",
     "build": "next build",
+    "export": "next export",
     "start": "next start",
+    "deploy": "yarn build && yarn export && touch ./out/.nojekyll && yarn gh-pages",
+    "gh-pages": "gh-pages -d out -t true",
     "type-check": "tsc"
   },
   "dependencies": {
+    "gh-pages": "^3.2.3",
     "metamask-react": "^2.1.1",
     "next": "latest",
     "react": "^17.0.1",
