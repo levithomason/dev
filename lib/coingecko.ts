@@ -1,8 +1,36 @@
 import { CoinGeckoChainID, TokenAddress } from "../types";
 
+const calls: string[] = [];
+let lastCallTime = 0;
+const rateLimit = (60 * 1000) / 50; // 50 calls per minute
+
 const get = async (url: string): Promise<any> => {
-  const res = await fetch(url);
-  return await res.json();
+  calls.push(url);
+
+  return new Promise((resolve, reject) => {
+    const rateLimitedCall = async () => {
+      const nextURL = calls[0];
+
+      const isBeyondRateLimit = Date.now() - lastCallTime > rateLimit
+
+      if (isBeyondRateLimit) {
+        calls.shift();
+        lastCallTime = Date.now();
+        console.log("FETCH", nextURL);
+        const res = await fetch(nextURL);
+        resolve(res.json());
+      } else {
+        if (nextURL) {
+          console.log("WAIT");
+          setTimeout(rateLimitedCall, rateLimit);
+        } else {
+          resolve();
+        }
+      }
+    };
+
+    rateLimitedCall();
+  });
 };
 
 const BASE_URL = "https://api.coingecko.com/api/v3";
