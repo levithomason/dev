@@ -4,15 +4,40 @@
 //   }
 // }
 
-export type TokenType = {
-  token: string;
+export type TokenAddress = string;
+
+export type TokenSymbol =
+  | "AVAX"
+  | "DAI"
+  | "HEC"
+  | "sHEC"
+  | "wsHEC"
+  | "WAGMI"
+  | "sWAGMI"
+  | "wsWAGMI"
+  | "MATIC"
+  | "CLAM2"
+  | "USDC"
+  | "USDC.e"
+  | "USDT"
+  | "FRAX"
+  | "wFRAX"
+  | "weFRAX";
+
+export type TokenDisplay = {
+  token: TokenSymbol;
   balance: string;
+  usdPrice: string;
 };
 
-export type AccountType = {
-  address: string;
-  balance: string;
-  tokens: TokenType[];
+export type TokenDefinition = [
+  address: TokenAddress,
+  symbol: TokenSymbol,
+  decimal: number
+];
+
+export type TokensByChain = {
+  [chain in ChainName]: TokenDefinition[];
 };
 
 export type ChainName =
@@ -28,7 +53,16 @@ export type ChainName =
 
 export type Chain = {
   chainID: number;
-  tokenSymbol: string;
+  tokenSymbol: TokenSymbol;
   name: ChainName;
   mainnetURL: string;
+  coinGeckoId: CoinGeckoChainID;
 };
+
+export type CoinGeckoChainID =
+  | "avalanche"
+  | "ethereum"
+  | "fantom"
+  | "harmony-shard-0"
+  | "polygon-pos";
+export type CoinGeckoTokenID = "avalanche-2" | "frax" | "usd-coin" | "tether";

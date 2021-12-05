@@ -58,8 +58,13 @@ const IndexPage = () => {
         h1 {
           text-align: center;
         }
+        .accounts {
+          /*display: grid;*/
+          /*grid-template-columns: min-content min-content min-content min-content min-content;*/
+        }
 
         .actions {
+          padding: 16px;
           display: flex;
           align-items: center;
           justify-content: center;

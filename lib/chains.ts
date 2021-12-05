@@ -8,6 +8,7 @@ export const chains: {
     tokenSymbol: "AVAX",
     name: "Avalanche",
     mainnetURL: "https://api.avax.network/ext/bc/C/rpc",
+    coinGeckoId: "avalanche",
   },
 
   Ethereum: {
@@ -15,6 +16,7 @@ export const chains: {
     tokenSymbol: "ETH",
     name: "Ethereum",
     mainnetURL: "https://mainnet.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161",
+    coinGeckoId: "ethereum",
   },
 
   Fantom: {
@@ -22,6 +24,7 @@ export const chains: {
     tokenSymbol: "FTM",
     name: "Fantom",
     mainnetURL: "https://rpc.ftm.tools",
+    coinGeckoId: "fantom",
   },
 
   Harmony: {
@@ -29,7 +32,7 @@ export const chains: {
     tokenSymbol: "ONE",
     name: "Harmony", // Shard 0
     mainnetURL: "https://api.s0.t.hmny.io",
-    // testnetUrl: "https://api.s0.b.hmny.io",
+    coinGeckoId: "harmony-shard-0",
   },
 
   // HarmonyShard1: {
@@ -61,5 +64,6 @@ export const chains: {
     tokenSymbol: "MATIC",
     name: "Polygon",
     mainnetURL: "https://polygon-rpc.com",
+    coinGeckoId: 'polygon-pos',
   },
 };
