@@ -1,32 +1,32 @@
 import { CoinGeckoChainID, TokenAddress } from "../types";
 
-let lastCallTime = 0;
-const rateLimit = (60 * 1000) / 50; // 50 calls per minute
+// let lastCallTime = 0;
+// const rateLimit = (60 * 1000) / 50; // 50 calls per minute
 
 const get = async (url: string): Promise<any> =>
-  new Promise((resolve, reject) => {
-    let timer: NodeJS.Timeout;
-    const rateLimitedCall = async () => {
-      window.clearTimeout(timer);
-      const msSinceLastCall = Date.now() - lastCallTime;
-
-      if (msSinceLastCall > rateLimit) {
-        lastCallTime = Date.now();
-        console.log("FETCH", url);
-        try {
-          const res = await fetch(url);
-          const json = await res.json();
-          resolve(json);
-        } catch (err) {
-          reject(err);
-        }
-      } else {
-        console.log("WAIT");
-        timer = setTimeout(rateLimitedCall, 60);
-      }
-    };
-
-    rateLimitedCall();
+  new Promise(async (resolve /*, reject */) => {
+    // let timer: NodeJS.Timeout;
+    // const rateLimitedCall = async () => {
+    //   window.clearTimeout(timer);
+    //   const msSinceLastCall = Date.now() - lastCallTime;
+    //
+    //   if (msSinceLastCall > rateLimit) {
+    //     lastCallTime = Date.now();
+    //     console.log("FETCH", url);
+    //     try {
+    const res = await fetch(url);
+    const json = await res.json();
+    resolve(json);
+    //     } catch (err) {
+    //       reject(err);
+    //     }
+    //   } else {
+    //     console.log("WAIT");
+    //     timer = setTimeout(rateLimitedCall, 60);
+    //   }
+    // };
+    //
+    // rateLimitedCall();
   });
 
 const BASE_URL = "https://api.coingecko.com/api/v3";
