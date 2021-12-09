@@ -29,9 +29,11 @@ export const coingecko = {
       `${BASE_URL}/simple/token_price/${id}?contract_addresses=${contractAddresses}&vs_currencies=usd&include_market_cap=true&include_24hr_vol=true&include_24hr_change=true&include_last_updated_at=true`
     );
   },
-  price: async (tokenIds: string[]): Promise<CoinGeckoTokenResponse> => {
+  price: async (
+    tokenIds: string[]
+  ): Promise<{ [key in CoinGeckoChainID]: CoinGeckoTokenResponse }> => {
     return await get(
-      `${BASE_URL}/simple/price?ids=${tokenIds.join()}&vs_currencies=usd&include_24hr_change=true`
+      `${BASE_URL}/simple/price?ids=${tokenIds.join()}&vs_currencies=usd&include_market_cap=true&include_24hr_vol=true&include_24hr_change=true&include_last_updated_at=true`
     );
   },
 

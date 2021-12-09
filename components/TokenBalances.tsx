@@ -31,93 +31,19 @@ export const TokenBalances: React.FC<{
         const tokenBalance = await tokenInst.methods.balanceOf(address).call();
         const decimalBalance = tokenBalance * Math.pow(10, -tokenDecimal);
 
-        // const aggregatorV3InterfaceABI: AbiItem[] = [
-        //   {
-        //     inputs: [],
-        //     name: "decimals",
-        //     outputs: [{ internalType: "uint8", name: "", type: "uint8" }],
-        //     stateMutability: "view",
-        //     type: "function",
-        //   },
-        //   {
-        //     inputs: [],
-        //     name: "description",
-        //     outputs: [{ internalType: "string", name: "", type: "string" }],
-        //     stateMutability: "view",
-        //     type: "function",
-        //   },
-        //   {
-        //     inputs: [
-        //       { internalType: "uint80", name: "_roundId", type: "uint80" },
-        //     ],
-        //     name: "getRoundData",
-        //     outputs: [
-        //       { internalType: "uint80", name: "roundId", type: "uint80" },
-        //       { internalType: "int256", name: "answer", type: "int256" },
-        //       { internalType: "uint256", name: "startedAt", type: "uint256" },
-        //       { internalType: "uint256", name: "updatedAt", type: "uint256" },
-        //       {
-        //         internalType: "uint80",
-        //         name: "answeredInRound",
-        //         type: "uint80",
-        //       },
-        //     ],
-        //     stateMutability: "view",
-        //     type: "function",
-        //   },
-        //   {
-        //     inputs: [],
-        //     name: "latestRoundData",
-        //     outputs: [
-        //       { internalType: "uint80", name: "roundId", type: "uint80" },
-        //       { internalType: "int256", name: "answer", type: "int256" },
-        //       { internalType: "uint256", name: "startedAt", type: "uint256" },
-        //       { internalType: "uint256", name: "updatedAt", type: "uint256" },
-        //       {
-        //         internalType: "uint80",
-        //         name: "answeredInRound",
-        //         type: "uint80",
-        //       },
-        //     ],
-        //     stateMutability: "view",
-        //     type: "function",
-        //   },
-        //   {
-        //     inputs: [],
-        //     name: "version",
-        //     outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-        //     stateMutability: "view",
-        //     type: "function",
-        //   },
-        // ];
-        //
-        // const priceFeed = new web3.eth.Contract(
-        //   aggregatorV3InterfaceABI,
-        //   address
-        // );
-        // priceFeed.methods
-        //   .latestRoundData()
-        //   .call()
-        //   .then((roundData: any) => {
-        //     // Do something with roundData
-        //     console.log("Latest Round Data", roundData);
-        //   });
-        //
         const priceInfo = await coingecko.tokenPrice(chain.coinGeckoId, [
           tokenAddress,
         ]);
+        const usdPrice = String(priceInfo[tokenAddress]?.usd ?? "");
 
         const balance =
           decimalBalance < 1
-            ? decimalBalance.toFixed(tokenDecimal)
+            ? // prevent numbers like "1e-12", show full decimals
+              decimalBalance.toFixed(tokenDecimal)
             : decimalBalance.toLocaleString("fullwide", { useGrouping: false });
 
         if (+balance !== 0) {
-          tokensWithBalances.push({
-            token: tokenSymbol,
-            balance,
-            usdPrice: String(priceInfo[tokenAddress]?.usd ?? ""),
-          });
+          tokensWithBalances.push({ token: tokenSymbol, balance, usdPrice });
         }
       })
     );
