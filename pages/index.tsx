@@ -8,15 +8,6 @@ import { chains } from "../lib/chains";
 const IndexPage = () => {
   const { status, connect, account } = useMetaMask();
 
-  // instant connect
-  React.useEffect(() => {
-    if (status === "notConnected") connect();
-  }, []);
-
-  if (status === "connected") {
-    // return <div>Connected account: {account}</div>;
-  }
-
   return (
     <Layout title="Levi's cypto gypto machine">
       <h1>🤖 cypto gypto</h1>
