@@ -1,10 +1,10 @@
 import * as React from "react";
-import { logoURL, appName } from "../lib/app-config";
+import { appName, logo } from "../lib/app-config";
 
 export const Logo = () => (
   <>
     <div className="app-logo">
-      <img alt="A robot head icon" src={logoURL} />{" "}
+      <img alt="A robot head icon" src={logo.src} />{" "}
       <span className="app-logo-text">{appName}</span>
     </div>
 

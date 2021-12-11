@@ -1,3 +1,4 @@
+import { TokenList } from "@uniswap/token-lists";
 import { CoinGeckoChainID, TokenAddress } from "../types";
 import { rateLimit } from "./rateLimit";
 
@@ -39,6 +40,10 @@ export const coingecko = {
 
   coins: async () => {
     return await get(`${BASE_URL}/coins/list`);
+  },
+
+  tokenList: async (): Promise<TokenList> => {
+    return await get(`https://tokens.coingecko.com/uniswap/all.json`);
   },
 
   assetPlatforms: async () => {

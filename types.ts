@@ -1,18 +1,29 @@
 declare global {
-  type Method = string;
-
   interface Window {
+    solana?: {
+      publicKey: null | {
+        toString: () => string;
+      };
+      isPhantom: boolean;
+      isSolana: boolean;
+      isConnected: boolean;
+      request: (params: { method: SolanaWalletJSONRPCMEthods }) => Promise<{
+        publicKey: string;
+      }>;
+    };
     ethereum?: {
       isMetaMask: boolean;
       networkVersion: null;
       selectedAddress: null;
       request: (params: {
-        method: MetaMaskEthereumJSONRPCMethods;
-      }) => WalletAddressERC20[];
+        method: MetaMaskWalletJSONRPCMethods;
+      }) => Promise<WalletAddressERC20[]>;
     };
   }
 }
 
+// =============================================================
+// Tokens
 export type TokenAddress = string;
 
 export type TokenSymbol =
@@ -52,6 +63,9 @@ export type TokensByChain = {
   [chain in ChainName]: TokenDefinition[];
 };
 
+// =============================================================
+// Chains
+
 export type ChainName =
   | "Avalanche"
   // | "Arbitrum"
@@ -71,18 +85,28 @@ export type Chain = {
   coinGeckoId: CoinGeckoChainID;
 };
 
-export type CoinGeckoChainID =
-  | "avalanche"
-  | "ethereum"
-  | "fantom"
-  | "harmony-shard-0"
-  | "polygon-pos";
-export type CoinGeckoTokenID = "avalanche-2" | "frax" | "usd-coin" | "tether";
-
+// =============================================================
+// Wallets
 export type WalletAddressERC20 = string;
 
+export type WalletAPI = {
+  name: string;
+  connect: () => Promise<any>;
+  isInstalled: boolean;
+  // isConnected: () => Promise<boolean>;
+  selectedAddress: string | null;
+}
+
+
+// -------------------------------
+// Solana
+export type SolanaWalletJSONRPCMEthods = "connect";
+
+// -------------------------------
+// MetaMask
+
 // https://docs.metamask.io/guide/rpc-api.html#table-of-contents
-export type MetaMaskEthereumJSONRPCMethods =
+export type MetaMaskWalletJSONRPCMethods =
   // permission
   | "eth_requestAccounts"
   | "wallet_getPermissions"
@@ -161,3 +185,14 @@ export type EthereumJSONRPCMethods =
   | "shh_uninstallFilter"
   | "shh_getFilterChanges"
   | "shh_getMessages";
+
+// =============================================================
+// Coingecko
+export type CoinGeckoTokenID = "avalanche-2" | "frax" | "usd-coin" | "tether";
+
+export type CoinGeckoChainID =
+  | "avalanche"
+  | "ethereum"
+  | "fantom"
+  | "harmony-shard-0"
+  | "polygon-pos";

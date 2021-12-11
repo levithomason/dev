@@ -1,2 +1,2 @@
 export const appName = "Crypto Gypto";
-export const logoURL = "https://static.thenounproject.com/png/771010-200.png";
+export { default as logo } from "../static/crypo-gypto-black.png";

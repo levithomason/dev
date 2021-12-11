@@ -1,7 +1,7 @@
 import React, { ReactNode } from "react";
 
 import Head from "next/head";
-import { appName, logoURL } from "../lib/app-config";
+import { appName, logo } from "../lib/app-config";
 
 type Props = {
   children?: ReactNode;
@@ -14,7 +14,8 @@ export const Layout = ({ children, title = appName }: Props) => (
       <title>{title}</title>
       <meta charSet="utf-8" />
       <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-      <link rel="shortcut icon" href={logoURL} />
+      <link rel="apple-touch-icon" href={logo.src} />
+      <link rel="shortcut icon" href={logo.src} />
     </Head>
 
     {children}
