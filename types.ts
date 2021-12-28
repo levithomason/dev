@@ -1,23 +1,46 @@
 declare global {
   interface Window {
     solana?: {
+      on<K extends keyof SolanaWalletEventMap>(
+        type: K,
+        listener: (ev: SolanaWalletEventMap[K]) => any
+      ): void;
+      off<K extends keyof SolanaWalletEventMap>(
+        type: K,
+        listener: (ev: SolanaWalletEventMap[K]) => any
+      ): void;
       publicKey: null | {
         toString: () => string;
       };
       isPhantom: boolean;
-      isSolana: boolean;
       isConnected: boolean;
-      request: (params: { method: SolanaWalletJSONRPCMEthods }) => Promise<{
+      connect: (options?: {
+        onlyIfTrusted?: boolean;
+      }) => Promise<{ publicKey: string }>;
+      disconnect: () => Promise<void>;
+      request: (params: {
+        method: SolanaWalletJSONRPCMethods;
+        params?: SolanaWalletJSONRPCParams;
+      }) => Promise<{
         publicKey: string;
       }>;
     };
+
     ethereum?: {
+      on<K extends keyof MetaMaskWalletEventMap>(
+        type: K,
+        listener: (ev: MetaMaskWalletEventMap[K]) => any
+      ): void;
+      off<K extends keyof MetaMaskWalletEventMap>(
+        type: K,
+        listener: (ev: MetaMaskWalletEventMap[K]) => any
+      ): void;
       isMetaMask: boolean;
       networkVersion: null;
       selectedAddress: null;
       request: (params: {
         method: MetaMaskWalletJSONRPCMethods;
-      }) => Promise<WalletAddressERC20[]>;
+      }) => Promise<WalletAddress[]>;
     };
   }
 }
@@ -66,6 +89,8 @@ export type TokensByChain = {
 // =============================================================
 // Chains
 
+export type ChainID = number;
+
 export type ChainName =
   | "Avalanche"
   // | "Arbitrum"
@@ -78,7 +103,7 @@ export type ChainName =
 // | "Solana";
 
 export type Chain = {
-  chainID: number;
+  chainID: ChainID;
   tokenSymbol: TokenSymbol;
   name: ChainName;
   mainnetURL: string;
@@ -87,23 +112,47 @@ export type Chain = {
 
 // =============================================================
 // Wallets
-export type WalletAddressERC20 = string;
+export type WalletNames = "MetaMask" | "Phantom";
 
-export type WalletAPI = {
-  name: string;
-  connect: () => Promise<any>;
+export type WalletAddress = string;
+
+export type WalletState = {
+  name: WalletNames;
   isInstalled: boolean;
-  // isConnected: () => Promise<boolean>;
   selectedAddress: string | null;
-}
-
+};
 
 // -------------------------------
 // Solana
-export type SolanaWalletJSONRPCMEthods = "connect";
+export type SolanaWalletEventMap = {
+  connect: void;
+  disconnect: void;
+};
+export type SolanaWalletJSONRPCMethods = "connect";
+export type SolanaWalletJSONRPCParams = { onlyIfTrusted: boolean };
 
 // -------------------------------
 // MetaMask
+export type MetaMaskChainId = string;
+export type MetaMaskConnectInfo = { chainId: MetaMaskChainId };
+export type MetaMaskProviderMessage = {
+  type: string;
+  data: unknown;
+};
+interface MetaMaskProviderRPCError extends Error {
+  message: string;
+  code: number;
+  data?: unknown;
+}
+
+// https://docs.metamask.io/guide/ethereum-provider.html#events
+export type MetaMaskWalletEventMap = {
+  accountsChanged: string[];
+  chainChanged: MetaMaskChainId;
+  connect: MetaMaskConnectInfo;
+  disconnect: MetaMaskProviderRPCError;
+  message: MetaMaskProviderMessage;
+};
 
 // https://docs.metamask.io/guide/rpc-api.html#table-of-contents
 export type MetaMaskWalletJSONRPCMethods =
@@ -188,11 +237,31 @@ export type EthereumJSONRPCMethods =
 
 // =============================================================
 // Coingecko
+
+// -------------------------------
+// Tokens
 export type CoinGeckoTokenID = "avalanche-2" | "frax" | "usd-coin" | "tether";
 
+export type CoinGeckoTokenResponse = {
+  last_updated_at: number;
+  usd: number;
+  usd_24h_change: number;
+  usd_24h_vol: number;
+  usd_market_cap: number;
+};
+
+// -------------------------------
+// Chains
 export type CoinGeckoChainID =
   | "avalanche"
   | "ethereum"
   | "fantom"
   | "harmony-shard-0"
   | "polygon-pos";
+
+export type CoinGeckoChain = {
+  id: CoinGeckoChainID;
+  chain_identifier: number | null;
+  name: string;
+  shortname: string;
+};

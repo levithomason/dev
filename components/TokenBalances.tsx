@@ -4,7 +4,7 @@ import Web3 from "web3";
 import tokenABI from "../lib/tokenABI";
 import { tokens } from "../lib/tokens";
 import { Chain, TokenDisplay } from "../types";
-import { coingecko } from "../lib/coingecko";
+import * as coinGecko from "../lib/coinGecko";
 
 export const TokenBalances: React.FC<{
   chain: Chain;
@@ -31,7 +31,7 @@ export const TokenBalances: React.FC<{
         const tokenBalance = await tokenInst.methods.balanceOf(address).call();
         const decimalBalance = tokenBalance * Math.pow(10, -tokenDecimal);
 
-        const priceInfo = await coingecko.tokenPrice(chain.coinGeckoId, [
+        const priceInfo = await coinGecko.tokenPrice(chain.coinGeckoId, [
           tokenAddress,
         ]);
         const usdPrice = String(priceInfo[tokenAddress]?.usd ?? "");

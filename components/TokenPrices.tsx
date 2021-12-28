@@ -1,6 +1,6 @@
 import React from "react";
 import { TokenList, TokenInfo } from "@uniswap/token-lists";
-import { coingecko } from "../lib/coingecko";
+import * as coinGecko from "../lib/coinGecko";
 
 const Token: React.FC<Pick<TokenInfo, "logoURI" | "symbol">> = ({
   logoURI,
@@ -32,7 +32,7 @@ export const TokenPrices: React.FC = () => {
   const [tokenList, setTokenList] = React.useState<TokenList["tokens"]>();
 
   const getTokens = async () => {
-    const res = await coingecko.tokenList();
+    const res = await coinGecko.tokenList();
     setTokenList(res.tokens);
   };
 

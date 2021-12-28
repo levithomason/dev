@@ -1,5 +1,9 @@
 import { TokenList } from "@uniswap/token-lists";
-import { CoinGeckoChainID, TokenAddress } from "../types";
+import {
+  CoinGeckoChainID,
+  TokenAddress,
+  CoinGeckoTokenResponse,
+} from "../types";
 import { rateLimit } from "./rateLimit";
 
 const rateLimitMS = (60 * 1000) / 50; // 50 calls per minute
@@ -11,45 +15,30 @@ const get = rateLimit(rateLimitMS, async (url: string) => {
 
 const BASE_URL = "https://api.coingecko.com/api/v3";
 
-type CoinGeckoTokenResponse = {
-  last_updated_at: number;
-  usd: number;
-  usd_24h_change: number;
-  usd_24h_vol: number;
-  usd_market_cap: number;
-};
+export const tokenPrice = async (
+  id: CoinGeckoChainID,
+  contractAddresses: TokenAddress[]
+): Promise<{
+  [key in TokenAddress]: CoinGeckoTokenResponse;
+}> =>
+  await get(
+    `${BASE_URL}/simple/token_price/${id}?contract_addresses=${contractAddresses}&vs_currencies=usd&include_market_cap=true&include_24hr_vol=true&include_24hr_change=true&include_last_updated_at=true`
+  );
 
-export const coingecko = {
-  tokenPrice: async (
-    id: CoinGeckoChainID,
-    contractAddresses: TokenAddress[]
-  ): Promise<{
-    [key in TokenAddress]: CoinGeckoTokenResponse;
-  }> => {
-    return await get(
-      `${BASE_URL}/simple/token_price/${id}?contract_addresses=${contractAddresses}&vs_currencies=usd&include_market_cap=true&include_24hr_vol=true&include_24hr_change=true&include_last_updated_at=true`
-    );
-  },
-  price: async (
-    tokenIds: string[]
-  ): Promise<{ [key in CoinGeckoChainID]: CoinGeckoTokenResponse }> => {
-    return await get(
-      `${BASE_URL}/simple/price?ids=${tokenIds.join()}&vs_currencies=usd&include_market_cap=true&include_24hr_vol=true&include_24hr_change=true&include_last_updated_at=true`
-    );
-  },
+export const price = async (
+  tokenIds: string[]
+): Promise<{ [key in CoinGeckoChainID]: CoinGeckoTokenResponse }> =>
+  await get(
+    `${BASE_URL}/simple/price?ids=${tokenIds.join()}&vs_currencies=usd&include_market_cap=true&include_24hr_vol=true&include_24hr_change=true&include_last_updated_at=true`
+  );
 
-  coins: async () => {
-    return await get(`${BASE_URL}/coins/list`);
-  },
+export const coins = async () => await get(`${BASE_URL}/coins/list`);
 
-  tokenList: async (): Promise<TokenList> => {
-    return await get(`https://tokens.coingecko.com/uniswap/all.json`);
-  },
+export const tokenList = async (): Promise<TokenList> =>
+  await get(`https://tokens.coingecko.com/uniswap/all.json`);
 
-  assetPlatforms: async () => {
-    return await get(`${BASE_URL}/asset_platforms`);
-  },
-};
+export const assetPlatforms = async () =>
+  await get(`${BASE_URL}/asset_platforms`);
 
 // const coinGeckoAssetPlatforms = [
 //   {

@@ -3968,11 +3968,6 @@ merge-stream@^2.0.0:
   resolved "https://registry.yarnpkg.com/merge-stream/-/merge-stream-2.0.0.tgz#52823629a14dd00c9770fb6ad47dc6310f2c1f60"
   integrity sha512-abv/qOcuPfk3URPfDzmZU1LKmuw8kT+0nIHvKrKgFrwifol/doWcdA4ZqsWQ8ENrFKkd67Mfpo/LovbIUsbt3w==
 
-metamask-react@^2.1.1:
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/metamask-react/-/metamask-react-2.1.1.tgz#3902da38f8508567cb6a7ac2f8a0d332ac2b3114"
-  integrity sha512-lgt5UX5EKmWNRJ9xkBHZCgAxmh26qcJPlHZRDs3mbJJZSnu67LSf3+NExlt/wpArHfyyOxkFh7h3xzf3KMtJkg==
-
 methods@~1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/methods/-/methods-1.1.2.tgz#5529a4d67654134edcc5266656835b0f851afcee"
