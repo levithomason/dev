@@ -2,7 +2,7 @@ import * as React from "react";
 import { phantomWalletState } from "../lib/state/wallet-state";
 import { useRecoilState } from "recoil";
 import { useHasMounted } from "../lib/hooks/hasMounted";
-import { formatAddress } from "../lib/formatAddress";
+import { formatAddress } from "../lib/formatters";
 
 export const PhantomWallet: React.FC = () => {
   const [wallet, setWallet] = useRecoilState(phantomWalletState);

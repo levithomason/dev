@@ -1,12 +1,11 @@
 import * as React from "react";
 
 import { Accounts } from "../components/Accounts";
-import { Chains } from "../components/Chains";
 import { Header } from "../components/Header";
 import { Layout } from "../components/Layout";
 import { RecoilRoot, useRecoilValue } from "recoil";
 import { metaMaskWalletState } from "../lib/state/wallet-state";
-// import { TokenPrices } from "../components/TokenPrices";
+import { DebankUserInfo } from "../components/DebankUserInfo";
 
 const IndexPage = () => {
   const walletState = useRecoilValue(metaMaskWalletState);
@@ -14,11 +13,12 @@ const IndexPage = () => {
   return (
     <Layout title="Crypto Gypto">
       <Header />
-      <Chains />
+      <DebankUserInfo address={walletState.selectedAddress} />
+      <br />
+      <br />
       {walletState.selectedAddress && (
         <Accounts address={walletState.selectedAddress} />
       )}
-      {/*<TokenPrices />*/}
 
       <style jsx global>
         {`

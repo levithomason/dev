@@ -24,6 +24,7 @@ export const Logo = () => (
         line-height: 1;
         letter-spacing: -1px;
         opacity: var(--text-opacity);
+        color: #fff;
       }
 
       .app-logo img {

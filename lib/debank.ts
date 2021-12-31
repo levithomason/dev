@@ -1,6 +1,6 @@
 import { rateLimit } from "./rateLimit";
 
-type Chain = {
+export type DebankChain = {
   id: string; // example: eth
   // chain id
   community_id: number; // example: 1
@@ -11,9 +11,10 @@ type Chain = {
   // native token
   wrapped_token_id: string; // example: 0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2
   // the erc20-wrapped of native token
+  usd_value: number
 };
 
-type Protocol = {
+export type DebankProtocol = {
   id: string; // example: compound
   // protocol id
   chain_id: number; // example: 1
@@ -27,7 +28,7 @@ type Protocol = {
   // Is portfolio already supported
 };
 
-type Token = {
+export type DebankToken = {
   id: string; // example: 0xdac17f958d2ee523a2206206994597c13d831ec7
   // Ethereum Address or native token id
   chain: number; // example: 1
@@ -53,9 +54,12 @@ const get = rateLimit(msPerCall, async (url: string) => {
 
 const BASE_URL = "https://openapi.debank.com/v1";
 
+export type UserTotalBalanceResponse = {
+  total_usd_value: number;
+  chain_list: DebankChain[];
+};
+
 export const userTotalBalance = async (
   id: string
-): Promise<{
-  total_usd_value: number;
-  chain_list: Chain[];
-}> => await get(`${BASE_URL}/user/total_balance?id=${id}`);
+): Promise<UserTotalBalanceResponse> =>
+  await get(`${BASE_URL}/user/total_balance?id=${id}`);

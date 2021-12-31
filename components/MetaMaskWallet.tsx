@@ -2,7 +2,7 @@ import * as React from "react";
 import { useRecoilState } from "recoil";
 
 import { useHasMounted } from "../lib/hooks/hasMounted";
-import { formatAddress } from "../lib/formatAddress";
+import { formatAddress } from "../lib/formatters";
 import { metaMaskWalletState } from "../lib/state/wallet-state";
 
 export const MetaMaskWallet: React.FC = () => {
